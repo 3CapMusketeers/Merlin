@@ -10,7 +10,7 @@ def hello_world():
     return 'Hello World!'
 
 
-@app.route('/create-model')
+@app.route('/model', methods=['POST'])
 def create_model():
     uid = request.json['uid']
     track_urls = request.json['tracks']
