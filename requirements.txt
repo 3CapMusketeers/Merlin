@@ -1,1 +1,12 @@
 flask
+pyaudioanalysis
+requests
+spotipy
+numpy
+matplotlib
+eyed3
+pydub
+scipy
+tqdm
+sklearn
+plotly
