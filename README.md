@@ -1,2 +1,7 @@
+![merlin](https://i.pinimg.com/originals/2a/40/93/2a40939063c1d60dce21008cce79a9ea.jpg)
+<p align="center">
+  <img src="https://i.pinimg.com/originals/2a/40/93/2a40939063c1d60dce21008cce79a9ea.jpg" height="400"/>
+</p>
+
 # Merlin - ML Models 
-![alt text](https://vignette.wikia.nocookie.net/merlin1/images/6/6a/Arthur2.jpg/revision/latest/top-crop/width/360/height/360?cb=20120912200734)
+
