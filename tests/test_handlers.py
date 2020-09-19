@@ -26,8 +26,10 @@ class ModelHandlerTestCase(unittest.TestCase):
         shutil.rmtree(os.getcwd() + "/tests/1")
 
     def test_classify_tracks(self):
+        os.chdir("../")
         training_tracks = [
-            {'url': "https://p.scdn.co/mp3-preview/104ad0ea32356b9f3b2e95a8610f504c90b0026b?cid=774b29d4f13844c495f206cafdad9c86"}
+            {'url': "https://p.scdn.co/mp3-preview/104ad0ea32356b9f3b2e95a8610f504c90b0026b?cid=774b29d4f13844c495f206cafdad9c86"},
+            {'url': "https://p.scdn.co/mp3-preview/b326e03624cb098d8387e17aa46669edac0d025a?cid=774b29d4f13844c495f206cafdad9c86"}
         ]
         tracks_to_classify = [
             {'url': "https://p.scdn.co/mp3-preview/b326e03624cb098d8387e17aa46669edac0d025a?cid=774b29d4f13844c495f206cafdad9c86",
@@ -35,7 +37,9 @@ class ModelHandlerTestCase(unittest.TestCase):
         ]
         search_term = 'test'
         ModelHandler().classify_tracks(training_tracks, tracks_to_classify, search_term, "1")
-
+        ModelHandler().classify_tracks(training_tracks, tracks_to_classify, search_term, "1")
+        shutil.rmtree("1")
+        shutil.rmtree("test")
 
 if __name__ == '__main__':
     unittest.main()

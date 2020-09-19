@@ -20,21 +20,29 @@ class ModelHandler:
             self.ml.train_model(f"{uid}/liked", "random music", path_to_save=f"{uid}/model")
 
     def classify_tracks(self, training_tracks, tracks_to_classify, search_term, uid):
+        track_ids = []
+        if uid not in os.listdir():
+            os.mkdir(uid)
+            os.mkdir(f"{uid}/liked")
         if search_term not in os.listdir():
             os.mkdir(search_term)
-            if uid not in os.listdir():
-                os.mkdir(uid)
             for count, training_track in enumerate(training_tracks):
                 write_file(f"{search_term}/{count}.mp3", self.spotify_api.get_mp3(training_track['url']))
             for track_to_classify in tracks_to_classify:
-                write_file(f"{uid}/liked/{track_to_classify['id']}.mp3", tracks_to_classify['url'])
+                write_file(f"{uid}/liked/{track_to_classify['id']}.mp3",
+                           self.spotify_api.get_mp3(track_to_classify['url']))
             self.ml.train_model(f"{search_term}", "random music", path_to_save=f"{search_term}/model")
 
-            track_ids = []
             for track_to_classify in tracks_to_classify:
                 result = self.ml.classify(f'{uid}/liked/{track_to_classify["id"]}.mp3', f'{search_term}/model')
                 if result:
                     track_ids.append(track_to_classify['id'])
-            return track_ids
         else:
-            pass
+            for track_to_classify in tracks_to_classify:
+                write_file(f"{uid}/liked/{track_to_classify['id']}.mp3",
+                           self.spotify_api.get_mp3(track_to_classify['url']))
+                result = self.ml.classify(f"{uid}/liked/{track_to_classify['id']}.mp3", f'{search_term}/model')
+                if result:
+                    track_ids.append(track_to_classify['id'])
+        return track_ids
+

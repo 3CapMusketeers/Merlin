@@ -5,7 +5,7 @@ from handlers.ModelHandler import ModelHandler
 app = Flask(__name__)
 
 
-@app.route('/model', methods=['POST'])
+@app.route('/personal-models', methods=['POST'])
 def create_model():
     uid = request.json['uid']
     track_urls = request.json['tracks']
