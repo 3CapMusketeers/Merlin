@@ -8,7 +8,7 @@ class SpotifyAPI:
     token = ''
 
     def __init__(self):
-        self.base_url = os.environ['SPOT_URL']
+        self.base_url = "https://api.spotify.com/v1"
 
     def request_data(self, url, token=token, method='GET', body=None):
         header = {'Authorization': 'Bearer ' + token} if token else None

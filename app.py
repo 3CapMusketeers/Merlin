@@ -19,7 +19,8 @@ def classify_tracks():
     tracks_to_classify = request.json['classify_tracks']
     search_term = request.json['search_term']
     uid = request.json['uid']
-    ModelHandler().classify_tracks(training_tracks, tracks_to_classify, search_term, uid)
+    track_ids = ModelHandler().classify_tracks(training_tracks, tracks_to_classify, search_term, uid)
+    return jsonify(tracks=track_ids)
 
 
 if __name__ == '__main__':

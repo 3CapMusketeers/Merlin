@@ -16,7 +16,7 @@ class ModelHandler:
             for track in tracks_dict:
                 with open(f"{uid}/liked/{track['id']}.mp3", "wb") as file:
                     file.write(self.spotify_api.get_mp3(track['url']))
-            self.ml.train_model(f"{uid}/liked", "../random music", path_to_save=f"{uid}/model")
+            self.ml.train_model(f"{uid}/liked", "random music", path_to_save=f"{uid}/model")
 
     def classify_tracks(self, training_tracks, tracks_to_classify, search_term, uid):
         if search_term not in os.listdir():
@@ -29,7 +29,7 @@ class ModelHandler:
             for track_to_classify in tracks_to_classify:
                 with open(f"{uid}/liked/{track_to_classify['id']}.mp3", "wb") as file:
                     file.write(self.spotify_api.get_mp3(track_to_classify['url']))
-            self.ml.train_model(f"{search_term}", "../random music", path_to_save=f"{search_term}/model")
+            self.ml.train_model(f"{search_term}", "random music", path_to_save=f"{search_term}/model")
 
             track_ids = []
             for track_to_classify in tracks_to_classify:

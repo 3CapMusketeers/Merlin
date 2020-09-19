@@ -11,6 +11,7 @@ class ModelHandlerTestCase(unittest.TestCase):
         os.environ['SPOT_URL'] = 'https://5f47d89495646700168da0a0.mockapi.io/'
 
     def test_create_model(self):
+        os.chdir("../")
         tracks_dict = [
             {"url": "https://p.scdn.co/mp3-preview/104ad0ea32356b9f3b2e95a8610f504c90b0026b?cid=774b29d4f13844c495f206cafdad9c86",
              "id": "4VqPOruhp5EdPBeR92t6lQ"},
@@ -18,11 +19,11 @@ class ModelHandlerTestCase(unittest.TestCase):
              "id": "2takcwOaAZWiXQijPHIx7B"}
         ]
 
-        ModelHandler().create_model('1', tracks_dict)
-        assert "1" in os.listdir()
-        assert "liked" in os.listdir(os.getcwd() + "/1")
-        assert "model" in os.listdir(os.getcwd() + "/1")
-        shutil.rmtree("1")
+        ModelHandler().create_model(os.getcwd() + "/tests/1", tracks_dict)
+        assert "1" in os.listdir(os.getcwd() + "/tests")
+        assert "liked" in os.listdir(os.getcwd() + "/tests/1")
+        assert "model" in os.listdir(os.getcwd() + "/tests/1")
+        shutil.rmtree(os.getcwd() + "/tests/1")
 
     def test_classify_tracks(self):
         training_tracks = [
