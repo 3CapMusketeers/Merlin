@@ -2,6 +2,8 @@ from ML import ML
 from SpotifyAPI import SpotifyAPI
 import os
 
+from utils.file_utils import write_file
+
 
 class ModelHandler:
 
@@ -14,8 +16,7 @@ class ModelHandler:
             os.mkdir(uid)
             os.mkdir(f"{uid}/liked")
             for track in tracks_dict:
-                with open(f"{uid}/liked/{track['id']}.mp3", "wb") as file:
-                    file.write(self.spotify_api.get_mp3(track['url']))
+                write_file(f"{uid}/liked/{track['id']}.mp3", self.spotify_api.get_mp3(track["url"]))
             self.ml.train_model(f"{uid}/liked", "random music", path_to_save=f"{uid}/model")
 
     def classify_tracks(self, training_tracks, tracks_to_classify, search_term, uid):
@@ -24,11 +25,9 @@ class ModelHandler:
             if uid not in os.listdir():
                 os.mkdir(uid)
             for count, training_track in enumerate(training_tracks):
-                with open(f"{search_term}/{count}.mp3", "wb") as file:
-                    file.write(self.spotify_api.get_mp3(training_track['url']))
+                write_file(f"{search_term}/{count}.mp3", self.spotify_api.get_mp3(training_track['url']))
             for track_to_classify in tracks_to_classify:
-                with open(f"{uid}/liked/{track_to_classify['id']}.mp3", "wb") as file:
-                    file.write(self.spotify_api.get_mp3(track_to_classify['url']))
+                write_file(f"{uid}/liked/{track_to_classify['id']}.mp3", tracks_to_classify['url'])
             self.ml.train_model(f"{search_term}", "random music", path_to_save=f"{search_term}/model")
 
             track_ids = []
