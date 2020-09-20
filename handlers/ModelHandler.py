@@ -1,3 +1,5 @@
+import shutil
+
 from ML import ML
 from SpotifyAPI import SpotifyAPI
 import os
@@ -44,5 +46,16 @@ class ModelHandler:
                 result = self.ml.classify(f"{uid}/liked/{track_to_classify['id']}.mp3", f'{search_term}/model')
                 if result:
                     track_ids.append(track_to_classify['id'])
+        return track_ids
+
+    def curated_tracks(self, tracks_to_classify, uid):
+        track_ids = []
+        os.mkdir(f'{uid}/tmp')
+        for track_to_classify in tracks_to_classify:
+            write_file(f"{uid}/tmp/{track_to_classify['id']}.mp3", self.spotify_api.get_mp3(track_to_classify['url']))
+            result = self.ml.classify(f"{uid}/tmp/{track_to_classify['id']}.mp3", f"{uid}/model")
+            if result:
+                track_ids.append(track_to_classify["id"])
+        shutil.rmtree(f'{uid}/tmp')
         return track_ids
 

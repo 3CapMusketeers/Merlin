@@ -23,5 +23,12 @@ def classify_tracks():
     return jsonify(tracks=track_ids)
 
 
+@app.route('/personal-models/<user_id>/classification', methods=['POST'])
+def curated_playlist(user_id):
+    tracks_to_classify = request.json['classify_tracks']
+    track_ids = ModelHandler().curated_tracks(tracks_to_classify, user_id)
+    return jsonify(tracks=track_ids)
+
+
 if __name__ == '__main__':
     app.run()
