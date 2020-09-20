@@ -36,14 +36,16 @@ class ModelHandler:
             self.ml.train_model(f"{search_term}", "random music", path_to_save=f"{search_term}/model")
 
             for track_to_classify in tracks_to_classify:
-                result = self.ml.classify(f'{uid}/liked/{track_to_classify["id"]}.mp3', f'{search_term}/model')
+                result = self.ml.classify(f'{uid}/liked/{track_to_classify["id"]}.mp3', f'{search_term}/model',
+                                          search_term)
                 if result:
                     track_ids.append(track_to_classify['id'])
         else:
             for track_to_classify in tracks_to_classify:
                 write_file(f"{uid}/liked/{track_to_classify['id']}.mp3",
                            self.spotify_api.get_mp3(track_to_classify['url']))
-                result = self.ml.classify(f"{uid}/liked/{track_to_classify['id']}.mp3", f'{search_term}/model')
+                result = self.ml.classify(f"{uid}/liked/{track_to_classify['id']}.mp3", f'{search_term}/model',
+                                          search_term)
                 if result:
                     track_ids.append(track_to_classify['id'])
         return track_ids
@@ -53,7 +55,7 @@ class ModelHandler:
         os.mkdir(f'{uid}/tmp')
         for track_to_classify in tracks_to_classify:
             write_file(f"{uid}/tmp/{track_to_classify['id']}.mp3", self.spotify_api.get_mp3(track_to_classify['url']))
-            result = self.ml.classify(f"{uid}/tmp/{track_to_classify['id']}.mp3", f"{uid}/model")
+            result = self.ml.classify(f"{uid}/tmp/{track_to_classify['id']}.mp3", f"{uid}/model", "liked")
             if result:
                 track_ids.append(track_to_classify["id"])
         shutil.rmtree(f'{uid}/tmp')
