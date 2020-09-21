@@ -1,3 +1,5 @@
+import datetime
+
 from flask import Flask, request, jsonify
 
 from handlers.ModelHandler import ModelHandler
@@ -7,9 +9,12 @@ app = Flask(__name__)
 
 @app.route('/personal-models', methods=['POST'])
 def create_model():
+    current_time = datetime.datetime.now()
     uid = request.json['uid']
     track_urls = request.json['tracks']
     ModelHandler().create_model(uid, track_urls)
+    passed_time = datetime.datetime.now()
+    print("Full time: " + passed_time - current_time)
     return jsonify(msg="ok")
 
 

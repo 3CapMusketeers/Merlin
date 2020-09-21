@@ -18,7 +18,9 @@ class ModelHandler:
             os.mkdir(uid)
             os.mkdir(f"{uid}/liked")
             for track in tracks_dict:
-                write_file(f"{uid}/liked/{track['id']}.mp3", self.spotify_api.get_mp3(track["url"]))
+                content = self.spotify_api.get_mp3(track['url'])
+                if content is not None:
+                    write_file(f"{uid}/liked/{track['id']}.mp3", content)
             self.ml.train_model(os.getcwd() + '/' + f"{uid}/liked", os.getcwd() + '/' + "random music", path_to_save=f"{uid}/model", uid=uid)
 
     def classify_tracks(self, training_tracks, tracks_to_classify, search_term, uid):
