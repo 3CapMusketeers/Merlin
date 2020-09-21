@@ -20,14 +20,19 @@ class ML:
             return None
         return mfccsscaled
 
-    def train_model(self, *args, path_to_save=''):
+    def train_model(self, *args, path_to_save='', uid=''):
         features = []
         target = []
         for directory in args:
             files = os.listdir(directory)
+            directory = directory.split('/')[-1]
             for file in files:
                 if file.split('.')[1] == "mp3":
-                    features.append(self.extract_features(directory + '/' + file))
+                    if uid:
+                        file_path = os.getcwd() + '/' + uid + '/' + directory + '/' + file
+                    else:
+                        file_path = os.getcwd() + '/' + directory + '/' + file
+                    features.append(self.extract_features(file_path))
                     target.append(directory)
         x_train, x_test, y_train, y_test = train_test_split(features, target)
         clf = RandomForestClassifier()

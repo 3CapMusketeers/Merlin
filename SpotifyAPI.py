@@ -19,7 +19,11 @@ class SpotifyAPI:
         return json.loads(response.text) if response.text else None
 
     def get_mp3(self, url):
-        return requests.get(url).content
+        try:
+            content = requests.get(url).content
+        except Exception:
+            pass
+        return content
 
     def set_token(self, token):
         self.token = token
