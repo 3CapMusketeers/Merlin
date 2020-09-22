@@ -27,6 +27,8 @@ def classify_tracks():
 def curated_playlist(user_id):
     tracks_to_classify = request.json['classify_tracks']
     track_ids = ModelHandler().curated_tracks(tracks_to_classify, user_id)
+    if track_ids is None:
+        return jsonify(msg="Personal Model not yet created")
     return jsonify(tracks=track_ids)
 
 
