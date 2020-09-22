@@ -30,10 +30,9 @@ class ModelHandler:
             os.chdir(f"{uid}/liked")
             self.write_mp3s(tracks_dict)
             os.chdir("../..")
-            self.ml.train_model(f"{uid}/liked", "random music", path_to_save=f"{uid}/model")
+            self.ml.train_model(f"{uid}/liked", path_to_save=f"{uid}/model", uid=uid)
 
     def classify_tracks(self, training_tracks, tracks_to_classify, search_term, uid):
-        track_ids = []
         if uid not in os.listdir():
             os.mkdir(uid)
             os.mkdir(f"{uid}/liked")
@@ -44,7 +43,7 @@ class ModelHandler:
             os.chdir(f'../{uid}/liked')
             self.write_mp3s(tracks_to_classify)
             os.chdir('../..')
-            self.ml.train_model(f"{search_term}", "random music", path_to_save=f"{search_term}/model")
+            self.ml.train_model(f"{search_term}", path_to_save=f"{search_term}/model")
 
             file_paths = []
             for track_to_classify in tracks_to_classify:

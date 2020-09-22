@@ -14,7 +14,7 @@ def create_model():
     track_urls = request.json['tracks']
     ModelHandler().create_model(uid, track_urls)
     passed_time = datetime.datetime.now()
-    print("Full time: " + passed_time - current_time)
+    print(passed_time - current_time)
     return jsonify(msg="ok")
 
 
