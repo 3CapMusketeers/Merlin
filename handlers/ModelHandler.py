@@ -49,7 +49,7 @@ class ModelHandler:
         return track_ids
 
     def curated_tracks(self, tracks_to_classify, uid):
-        if "model" not in os.listdir(f"{uid}"):
+        if f"{uid}" not in os.listdir() or "model" not in os.listdir(f"{uid}"):
             return None
         track_ids = []
         os.mkdir(f'{uid}/tmp')

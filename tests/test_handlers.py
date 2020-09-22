@@ -43,15 +43,19 @@ class ModelHandlerTestCase(unittest.TestCase):
         shutil.rmtree("test")
 
     def test_curated_playlist(self):
+        os.mkdir("1")
         tracks_to_classify = [
             {
                 'url': "https://p.scdn.co/mp3-preview/b326e03624cb098d8387e17aa46669edac0d025a?cid=774b29d4f13844c495f206cafdad9c86",
                 "id": "2takcwOaAZWiXQijPHIx7B"}
         ]
+        tracks_ids = ModelHandler().curated_tracks(tracks_to_classify, "1")
+        assert tracks_ids is None
         aT.extract_features_and_train(["test_music", "test_music_2"], 1.0, 1.0, aT.shortTermWindow,
                                       aT.shortTermStep, "svm", "1/model", True)
         track_ids = ModelHandler().curated_tracks(tracks_to_classify, "1")
         assert isinstance(track_ids, list)
+        shutil.rmtree("1")
 
 
 if __name__ == '__main__':
