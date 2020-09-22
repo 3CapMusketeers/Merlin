@@ -50,8 +50,9 @@ class ModelHandler:
                     track_ids.append(track_to_classify['id'])
         else:
             for track_to_classify in tracks_to_classify:
-                write_file(f"{uid}/liked/{track_to_classify['id']}.mp3",
-                           self.spotify_api.get_mp3(track_to_classify['url']))
+                os.chdir(f"{uid}/liked")
+                self.write_mp3s(tracks_to_classify)
+                os.chdir("../..")
                 result = self.ml.classify(f"{uid}/liked/{track_to_classify['id']}.mp3", f'{search_term}/model')
                 if result:
                     track_ids.append(track_to_classify['id'])
