@@ -1,3 +1,6 @@
+from functools import partial
+from multiprocessing import Pool
+
 from pyAudioAnalysis import audioTrainTest as aT
 import librosa
 import numpy as np
@@ -42,7 +45,17 @@ class ML:
 
         dump(model, path_to_save)
 
-    def classify(self, file_path, model_path, term):
+    def classify_tracks(self, file_paths, model_path, term):
+        func = partial(self.classify, model_path, term)
+        with Pool(4) as p:
+            results = p.map(func, file_paths)
+        track_ids = list(filter(None, results))
+        return track_ids
+
+    def classify(self, model_path, term, file_path):
         model = load(model_path)
-        return model.predict([self.extract_features(file_path)]) == term
+        if model.predict([self.extract_features(file_path)]) == term:
+            return file_path.split('/')[-1].split('.')[0]
+        else:
+            return None
 
