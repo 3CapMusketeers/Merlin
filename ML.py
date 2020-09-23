@@ -14,7 +14,7 @@ class ML:
     def extract_features(self, file_name):
         try:
             print(f"Extracting audio features from {file_name[0]}...")
-            audio, sample_rate = librosa.load(file_name[0])
+            audio, sample_rate = librosa.load(file_name[0], sr=None)
             mfccs = librosa.feature.mfcc(y=audio, sr=sample_rate, n_mfcc=40)
             mfccsscaled = np.mean(mfccs.T, axis=0)
             return [mfccsscaled, file_name[1]]
