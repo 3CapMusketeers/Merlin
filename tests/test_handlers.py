@@ -2,6 +2,7 @@ import unittest
 import os
 import shutil
 
+from ML import ML
 from handlers.ModelHandler import ModelHandler
 from pyAudioAnalysis import audioTrainTest as aT
 
@@ -51,8 +52,7 @@ class ModelHandlerTestCase(unittest.TestCase):
         ]
         tracks_ids = ModelHandler().curated_tracks(tracks_to_classify, "1")
         assert tracks_ids is None
-        aT.extract_features_and_train(["test_music", "test_music_2"], 1.0, 1.0, aT.shortTermWindow,
-                                      aT.shortTermStep, "svm", "1/model", True)
+        ML().train_model("test_music", "test_music_2", path_to_save="1/model")
         track_ids = ModelHandler().curated_tracks(tracks_to_classify, "1")
         assert isinstance(track_ids, list)
         shutil.rmtree("1")
