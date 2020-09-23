@@ -21,9 +21,6 @@ class ML:
         except Exception as e:
             print(e)
 
-    def split_list(self, mylist, chunk_size):
-        return [mylist[offs:offs + chunk_size] for offs in range(0, len(mylist), chunk_size)]
-
     def train_model(self, *args, path_to_save='', uid=''):
         features = []
         target = []
