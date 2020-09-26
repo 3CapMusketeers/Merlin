@@ -14,10 +14,16 @@ class ML:
     def extract_features(self, file_name):
         try:
             print(f"Extracting audio features from {file_name[0]}...")
-            audio, sample_rate = librosa.load(file_name[0], sr=None)
+            audio, sample_rate = librosa.load(file_name[0], sr=None, res_type='kaiser_fast')
             mfccs = librosa.feature.mfcc(y=audio, sr=sample_rate, n_mfcc=40)
+            chroma_stft = np.mean(librosa.feature.chroma_stft(y=audio, sr=sample_rate))
+            spec_cent = np.mean(librosa.feature.spectral_centroid(y=audio, sr=sample_rate))
+            spec_bw = np.mean(librosa.feature.spectral_bandwidth(y=audio, sr=sample_rate))
+            rolloff = np.mean(librosa.feature.spectral_rolloff(y=audio, sr=sample_rate))
+            zcr = np.mean(librosa.feature.zero_crossing_rate(audio))
             mfccsscaled = np.mean(mfccs.T, axis=0)
-            return [mfccsscaled, file_name[1]]
+            result = np.append(mfccsscaled, [chroma_stft, spec_cent, spec_bw, rolloff, zcr])
+            return [result, file_name[1]]
         except Exception as e:
             print(e)
 
