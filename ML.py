@@ -16,14 +16,8 @@ class ML:
             print(f"Extracting audio features from {file_name[0]}...")
             audio, sample_rate = librosa.load(file_name[0], sr=None, res_type='kaiser_fast')
             mfccs = librosa.feature.mfcc(y=audio, sr=sample_rate, n_mfcc=40)
-            chroma_stft = np.mean(librosa.feature.chroma_stft(y=audio, sr=sample_rate))
-            spec_cent = np.mean(librosa.feature.spectral_centroid(y=audio, sr=sample_rate))
-            spec_bw = np.mean(librosa.feature.spectral_bandwidth(y=audio, sr=sample_rate))
-            rolloff = np.mean(librosa.feature.spectral_rolloff(y=audio, sr=sample_rate))
-            zcr = np.mean(librosa.feature.zero_crossing_rate(audio))
             mfccsscaled = np.mean(mfccs.T, axis=0)
-            result = np.append(mfccsscaled, [chroma_stft, spec_cent, spec_bw, rolloff, zcr])
-            return [result, file_name[1]]
+            return [mfccsscaled, file_name[1]]
         except Exception as e:
             print(e)
 
@@ -67,13 +61,17 @@ class ML:
         with Pool(4) as p:
             results = p.map(func, file_paths)
         track_ids = list(filter(None, results))
+        print(len(track_ids))
         return track_ids
 
     def classify(self, model_path, term, file_path):
         model = load(model_path)
-        result = self.extract_features([file_path, term])[0]
-        if model.predict([result]) == term:
-            return file_path.split('/')[-1].split('.')[0]
-        else:
-            return None
+        result = self.extract_features([file_path, term])
+        if result is not None:
+            prediction = model.predict_proba([result[0]])[0][0]
+            if prediction > 0.99:
+                print(term)
+                return file_path.split('/')[-1].split('.')[0]
+            else:
+                return None
 
