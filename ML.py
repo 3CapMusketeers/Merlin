@@ -61,7 +61,6 @@ class ML:
         with Pool(4) as p:
             results = p.map(func, file_paths)
         track_ids = list(filter(None, results))
-        print(len(track_ids))
         return track_ids
 
     def classify(self, model_path, term, file_path):
@@ -70,7 +69,6 @@ class ML:
         if result is not None:
             prediction = model.predict_proba([result[0]])[0][0]
             if prediction > 0.99:
-                print(term)
                 return file_path.split('/')[-1].split('.')[0]
             else:
                 return None
