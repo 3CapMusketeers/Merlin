@@ -25,7 +25,10 @@ def classify_tracks():
     search_term = request.json['search_term']
     uid = request.json['uid']
     track_ids = ModelHandler().classify_tracks(training_tracks, tracks_to_classify, search_term, uid)
-    return jsonify(tracks=track_ids)
+    if track_ids is None:
+        return jsonify(msg="User must create an account first")
+    else:
+        return jsonify(tracks=track_ids)
 
 
 @app.route('/personal-models/<user_id>/classification', methods=['POST'])
@@ -38,4 +41,4 @@ def curated_playlist(user_id):
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(port=5005)

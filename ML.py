@@ -14,7 +14,7 @@ class ML:
     def extract_features(self, file_name):
         try:
             print(f"Extracting audio features from {file_name[0]}...")
-            audio, sample_rate = librosa.load(file_name[0], sr=None)
+            audio, sample_rate = librosa.load(file_name[0], sr=None, res_type='kaiser_fast')
             mfccs = librosa.feature.mfcc(y=audio, sr=sample_rate, n_mfcc=40)
             mfccsscaled = np.mean(mfccs.T, axis=0)
             return [mfccsscaled, file_name[1]]
@@ -65,9 +65,11 @@ class ML:
 
     def classify(self, model_path, term, file_path):
         model = load(model_path)
-        result = self.extract_features([file_path, term])[0]
-        if model.predict([result]) == term:
-            return file_path.split('/')[-1].split('.')[0]
-        else:
-            return None
+        result = self.extract_features([file_path, term])
+        if result is not None:
+            prediction = model.predict_proba([result[0]])[0][0]
+            if prediction > 0.99:
+                return file_path.split('/')[-1].split('.')[0]
+            else:
+                return None
 
