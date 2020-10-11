@@ -66,3 +66,6 @@ class ModelHandler:
         shutil.rmtree(f'{uid}/tmp')
         return track_ids
 
+    def check_personal_model(self, user_id):
+        files = os.listdir()
+        return user_id in files and 'model' in os.listdir(user_id)
