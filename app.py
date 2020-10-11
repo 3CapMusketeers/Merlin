@@ -40,5 +40,11 @@ def curated_playlist(user_id):
     return jsonify(tracks=track_ids)
 
 
+@app.route('/personal-models/<user_id>')
+def check_model(user_id):
+    model_exists = ModelHandler().check_personal_model(user_id)
+    return jsonify(msg=model_exists)
+
+
 if __name__ == '__main__':
     app.run(port=5005)
