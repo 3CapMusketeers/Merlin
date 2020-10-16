@@ -2,9 +2,8 @@ import unittest
 import os
 import shutil
 
-from ML import ML
-from handlers.ModelHandler import ModelHandler
-from pyAudioAnalysis import audioTrainTest as aT
+from app.ML import ML
+from app.handlers import ModelHandler
 
 
 class ModelHandlerTestCase(unittest.TestCase):

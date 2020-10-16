@@ -1,10 +1,10 @@
 import shutil
 
-from ML import ML
-from SpotifyAPI import SpotifyAPI
+from app.ML import ML
+from app.SpotifyAPI import SpotifyAPI
 import os
 
-from utils.file_utils import write_file
+from app.utils.file_utils import write_file
 from multiprocessing import Pool
 
 
@@ -39,7 +39,7 @@ class ModelHandler:
             os.mkdir(search_term)
             os.chdir(search_term)
             self.write_mp3s(training_tracks)
-            os.chdir('..')
+            os.chdir('../../appi')
             self.ml.train_model(f"{search_term}", path_to_save=f"{search_term}/model")
             file_paths = []
             for track_to_classify in tracks_to_classify:

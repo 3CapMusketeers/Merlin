@@ -1,7 +1,7 @@
 import os
 import unittest
 
-from utils.file_utils import write_file
+from app.utils.file_utils import write_file
 
 
 class FileUtilsTestCase(unittest.TestCase):

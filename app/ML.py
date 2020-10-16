@@ -68,7 +68,7 @@ class ML:
         result = self.extract_features([file_path, term])
         if result is not None:
             prediction = model.predict_proba([result[0]])[0][0]
-            if prediction > 0.99:
+            if prediction > 0.90:
                 return file_path.split('/')[-1].split('.')[0]
             else:
                 return None

@@ -1,5 +1,5 @@
 import unittest
-from SpotifyAPI import SpotifyAPI
+from app.SpotifyAPI import SpotifyAPI
 import os
 
 

@@ -1,7 +1,7 @@
 import unittest
 import os
 
-from ML import ML
+from app.ML import ML
 
 
 class MLTestCase(unittest.TestCase):
