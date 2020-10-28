@@ -6,8 +6,12 @@ RUN apt-get update && \
     apt-get -y install netcat libsndfile1-dev && \
     apt-get clean
 
+RUN mkdir /data
 # set working directory
 WORKDIR /usr/src/app
+
+ENV NGINX_WORKER_CONNECTIONS 2048
+ENV NGINX_WORKER_OPEN_FILES 2048
 
 # add and install requirements
 COPY ./requirements.txt /usr/src/app/requirements.txt

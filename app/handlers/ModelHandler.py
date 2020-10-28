@@ -24,6 +24,7 @@ class ModelHandler:
             p.map(self._write_mp3s, tracks_dict)
 
     def create_model(self, uid, tracks_dict):
+        os.chdir("/data")
         if uid not in os.listdir():
             os.mkdir(uid)
             os.mkdir(f"{uid}/liked")

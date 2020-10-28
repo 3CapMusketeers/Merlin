@@ -25,6 +25,7 @@ class ML:
         features = []
         target = []
         file_names = []
+        os.chdir("/data")
         for directory in args:
             files = os.listdir(directory)
             directory = directory.split('/')[-1]

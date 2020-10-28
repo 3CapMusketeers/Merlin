@@ -2,10 +2,9 @@ import datetime
 
 from flask import Flask, request, jsonify
 
-from app.handlers import ModelHandler
+from app.handlers.ModelHandler import ModelHandler
 
 app = Flask(__name__)
-
 
 @app.route('/personal-models', methods=['POST'])
 def create_model():
