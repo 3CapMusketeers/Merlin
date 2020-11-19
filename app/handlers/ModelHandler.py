@@ -40,7 +40,7 @@ class ModelHandler:
             os.mkdir(search_term)
             os.chdir(search_term)
             self.write_mp3s(training_tracks)
-            os.chdir('../../appi')
+            os.chdir('../../app')
             self.ml.train_model(f"{search_term}", path_to_save=f"{search_term}/model")
             file_paths = []
             for track_to_classify in tracks_to_classify:
