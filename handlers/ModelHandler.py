@@ -68,4 +68,11 @@ class ModelHandler:
 
     def check_personal_model(self, user_id):
         files = os.listdir()
-        return user_id in files and 'model' in os.listdir(user_id)
+        if user_id in files and 'model' in os.listdir(user_id):
+            return 1
+        elif user_id in files and 'model' not in os.listdir(user_id):
+            return 0
+        else:
+            return -1
+
+
