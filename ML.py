@@ -15,9 +15,23 @@ class ML:
         try:
             print(f"Extracting audio features from {file_name[0]}...")
             audio, sample_rate = librosa.load(file_name[0], sr=None, res_type='kaiser_fast')
-            mfccs = librosa.feature.mfcc(y=audio, sr=sample_rate, n_mfcc=40)
-            mfccsscaled = np.mean(mfccs.T, axis=0)
-            return [mfccsscaled, file_name[1]]
+            zcr = librosa.feature.zero_crossing_rate(y=audio)
+            spectral_centroid = librosa.feature.spectral_centroid(y=audio)
+            spectral_contrast = librosa.feature.spectral_contrast(y=audio)
+            spectral_bandwith = librosa.feature.spectral_bandwidth(y=audio)
+            spectral_rolloff = librosa.feature.spectral_rolloff(y=audio)
+            mfccs = librosa.feature.mfcc(y=audio, sr=sample_rate)
+
+            return [[np.mean(zcr), np.std(zcr), np.mean(spectral_centroid), np.std(spectral_centroid),
+                     np.mean(spectral_contrast), np.std(spectral_contrast), np.mean(spectral_bandwith),
+                     np.std(spectral_bandwith), np.mean(spectral_rolloff), np.std(spectral_rolloff),
+                     np.mean(mfccs[1, :]), np.std(mfccs[1, :]), np.mean(mfccs[2, :]), np.std(mfccs[2, :]),
+                     np.mean(mfccs[3, :]), np.std(mfccs[3, :]), np.mean(mfccs[4, :]), np.std(mfccs[4, :]),
+                     np.mean(mfccs[5, :]), np.std(mfccs[5, :]), np.mean(mfccs[6, :]), np.std(mfccs[6, :]),
+                     np.mean(mfccs[7, :]), np.std(mfccs[7, :]), np.mean(mfccs[8, :]), np.std(mfccs[8, :]),
+                     np.mean(mfccs[9, :]), np.std(mfccs[9, :]), np.mean(mfccs[10, :]), np.std(mfccs[10, :]),
+                     np.mean(mfccs[11, :]), np.std(mfccs[11, :]), np.mean(mfccs[12, :]), np.std(mfccs[12, :]),
+                     np.mean(mfccs[13, :]), np.std(mfccs[13, :])], file_name[1]]
         except Exception as e:
             print(e)
 
@@ -68,7 +82,7 @@ class ML:
         result = self.extract_features([file_path, term])
         if result is not None:
             prediction = model.predict_proba([result[0]])[0][0]
-            if prediction > 0.99:
+            if prediction > 0.95:
                 return file_path.split('/')[-1].split('.')[0]
             else:
                 return None
